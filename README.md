@@ -96,7 +96,7 @@ import Navbar from './navbar.vue'
 import List from './list.vue'
 import Detail from './detail.vue'
 import Add from './add.vue'
-export {Navbar,List,Detail,,Add}
+export {Navbar,List,Detail,Add}
 ```
 
 ## Navbar
@@ -223,6 +223,43 @@ new Vue({
     </div>
   </div>
 </template>
+```
+
+在list.vue 中
+```
+# 先写静态页面
+<template>
+    <div id="list">
+        <h3>Book list page</h3>
+        <div class="col-md-3">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    Title：<span>VueJs</span>
+                </div>
+                <div class="panel-body">
+                    <img src="./logo.png" alt="">
+                </div>
+                <div class="panel-footer">
+                    Price：<span>9.9 $</span>
+                    <a href="javascript:;">Detail</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<style>
+    a {
+        text-decoration: none;
+    }
+
+    h3 {
+        text-align: center;
+    }
+
+    img {
+        width: 100%;
+    }
+</style>
 ```
 
 
