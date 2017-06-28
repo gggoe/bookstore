@@ -99,3 +99,49 @@ import Add from './add.vue'
 export {Navbar,List,Detail,,Add}
 ```
 
+## Navbar
+
+导入bootstrap 导航组件 http://v3.bootcss.com/components/#nav
+
+>组件只能有一个根元素
+
+```
+<nav id="navbar" class="navbar navbar-default navbar-fixed-center">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Simple Bookstore</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="javascript:;">Book list</a>
+                </li>
+                <li>
+                    <a href="javascript:;">Add book</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+```
+
+在App.vue 中导入
+```
+# 导入Navbar 模块
+import {Navbar} from './components'
+
+# 作为组件
+export default {
+    components: {
+        Navbar
+    }
+}
+
+# 输出到页面
+<template>
+    <div id="app">
+        <Navbar></Navbar>
+    </div>
+</template>
+```
+
