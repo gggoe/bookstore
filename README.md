@@ -539,4 +539,65 @@ app.delete('/books', (req, res) => {
 });
 ```
 
+## Add
+
+在add.vue中
+```
+<form>
+    <div class="form-group">
+        <label for="name">Title</label>
+        <input type="text" class="form-control" id="name" v-model="book.bookname">
+    </div>
+    ...
+    <button class="btn btn-primary" @click="add">Confirm change</button>
+</form>
+
+<script>
+    export default {
+        data(){
+            return {book: {bookname: null, bookcover: null, price: null}}
+        },
+        methods: {
+            add(){
+                if (this.book.bookname && this.book.bookcover && this.book.price) {
+                    // 如果增加的book 各个值都存在 就传到后台 然后返回列表页
+                    this.$http.post('/books', this.book).then(res => {
+                        this.$router.push('/list');
+                    }, err => {
+                        console.log(err);
+                    })
+                } else {
+                    alert('请把信息填写完整！');
+                }
+            }
+        }
+    }
+</script>
+```
+在server.js 中
+```
+// 监听post请求并处理
+app.post('/books', (req, res) => {
+    readBooks(books => {
+        // 如果之前json 文件里有数据
+        if (books.length >= 1) {
+            // 收到前台的请求 并在后台生成一个id id是json文件里最后一条数据的id+1
+            let oId = books.length - 1;
+            // 把id添加到要增加的那条数据里
+            req.body.id = books[oId].id + 1;
+        } else {
+            req.body.id = 1;
+        }
+        // 把数据添加到数组末尾
+        books.push(req.body);
+        // 把数组重新写入json 文件
+        writeBooks(books, function () {
+            res.send(books);
+        })
+    })
+});
+```
+
+
+
 

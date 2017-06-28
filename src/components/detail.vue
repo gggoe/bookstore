@@ -16,8 +16,7 @@
                         <input type="text" v-show="flag" v-model="book.price">
                         <button type="button" class="btn btn-danger" v-show="!flag" @click="remove">Delete</button>
                         <button type="button" class="btn btn-warning" v-show="!flag" @click="flag=true">Modify</button>
-                        <button type="button" class="btn btn-primary" v-show="flag" @click="update">Confirm change
-                        </button>
+                        <button type="button" class="btn btn-primary" v-show="flag" @click="update">Confirm change</button>
                     </div>
                 </div>
             </div>

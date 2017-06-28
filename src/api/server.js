@@ -20,7 +20,7 @@ let readBooks = callback => {
 
 // 监听get请求并处理
 app.get('/books', (req, res) => {
-    console.log("前台发送id: "+req.query.id); // 得到前端传递过来的id
+    console.log("前台发送id: " + req.query.id); // 得到前端传递过来的id
     let id = Number(req.query.id);
     if (id) { // 如果前台传过来id 返回指定id 的图书数据 详情页
         readBooks(books => {
@@ -30,7 +30,7 @@ app.get('/books', (req, res) => {
             res.send(book);
         });
     } else { // 如果前台没有传过来id 返回所有的数据 列表页
-        readBooks(books=> {
+        readBooks(books => {
             res.send(books);
         })
     }
@@ -38,7 +38,7 @@ app.get('/books', (req, res) => {
 
 // 监听put请求并处理
 app.put('/books', (req, res) => {
-    console.log("需要修改的内容: "+req.body); // req.body 获取的请求体里的内容 json对象
+    console.log("需要修改的内容: " + req.body); // req.body 获取的请求体里的内容 json对象
     readBooks(books => {
         let id = Number(req.body.id); // 获取需要更新的对象id
         books = books.map(item => {
@@ -70,6 +70,27 @@ app.delete('/books', (req, res) => {
             res.send(books);
         });
     });
+});
+
+// 监听post请求并处理
+app.post('/books', (req, res) => {
+    readBooks(books => {
+        // 如果之前json 文件里有数据
+        if (books.length >= 1) {
+            // 收到前台的请求 并在后台生成一个id id是json文件里最后一条数据的id+1
+            let oId = books.length - 1;
+            // 把id添加到要增加的那条数据里
+            req.body.id = books[oId].id + 1;
+        } else {
+            req.body.id = 1;
+        }
+        // 把数据添加到数组末尾
+        books.push(req.body);
+        // 把数组重新写入json 文件
+        writeBooks(books, function () {
+            res.send(books);
+        })
+    })
 });
 
 app.listen(6061, () => {
