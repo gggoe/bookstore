@@ -1,6 +1,6 @@
 <template>
     <div id="list">
-
+        List
     </div>
 </template>
 <script>

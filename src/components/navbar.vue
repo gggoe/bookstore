@@ -7,10 +7,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a href="javascript:;">Book list</a>
+                        <router-link to="/list">Book list</router-link>
                     </li>
                     <li>
-                        <a href="javascript:;">Add book</a>
+                        <router-link to="/add">Add book</router-link>
                     </li>
                 </ul>
             </div>
@@ -19,6 +19,6 @@
 </template>
 <script>
     export default{
-        name:'navbar'
+        name: 'navbar'
     }
 </script>

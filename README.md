@@ -76,7 +76,7 @@ module: {
 
 ## Components
 
-在src下建立一个components文件夹 放置组件
+在src下建立一个components 文件夹 放置组件
 
 在components 下创建
 
@@ -144,4 +144,85 @@ export default {
     </div>
 </template>
 ```
+
+## Vue-router
+
+基于vue-router 开发单页应用
+
+```
+# 下载vue-router
+npm install vue-router -S
+```
+
+在src下建立一个router 文件夹 放置路由表
+
+在router 下创建router.js 文件配置路由
+
+1. 配置路由导航
+
+2. 导入路由组件
+
+3. 配置路由表 (注册路由表)
+
+4. 生成和导出VueRouter 实例
+
+5. 在Vue根实例中注入路由
+
+在navbar.vue中
+```
+<li class="active">
+    <router-link to="/list">Book list</router-link>
+</li>
+<li>
+    <router-link to="/add">Add book</router-link>
+</li>
+```
+
+在router.js中
+```
+# 导入路由组件
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import {List, Add, Detail} from '../components'
+
+# 启用VueRouter
+Vue.use(VueRouter);
+
+# 创建路由路径规则
+let routes = [
+    {path: '/list', component: List},
+    {path: '/detail/:id', name: 'detail', component: Detail},
+    {path: '/add', component: Add},
+    {path: '*', redirect: '/list'} // redirect 重定向
+];
+
+# 生成VueRouter 实例 并导出
+export default new VueRouter({routes});
+```
+
+在main.js 中
+```
+# 导入VueRouter 实例
+import router from './router/router'
+
+new Vue({
+    el:'#app',
+    render: h => h(App),
+    router // 将VueRouter 实例注入到vue 根实例中
+})
+```
+
+在App.vue 中 指定视图位置
+```
+# router-view 视图 路由出现位置
+<template>
+  <div id="app">
+  <Navbar></Navbar>
+    <div class="container">
+      <router-view></router-view>
+    </div>
+  </div>
+</template>
+```
+
 
