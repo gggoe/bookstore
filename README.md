@@ -297,10 +297,10 @@ Vue.use(VueResource);
 创建books.json 数据文件
 ```
 [
-    {"id": 1, "bookname": "VueJs1", "bookcover": "./logo.png", "price": 10},
-    {"id": 2, "bookname": "VueJs2", "bookcover": "./logo.png", "price": 10},
-    {"id": 3, "bookname": "VueJs3", "bookcover": "./logo.png", "price": 10},
-    {"id": 4, "bookname": "VueJs4", "bookcover": "./logo.png", "price": 10}
+    {"id": 1, "bookname": "VueJs1", "bookcover": "dist/logo.png", "price": 10},
+    {"id": 2, "bookname": "VueJs2", "bookcover": "dist/logo.png", "price": 10},
+    {"id": 3, "bookname": "VueJs3", "bookcover": "dist/logo.png", "price": 10},
+    {"id": 4, "bookname": "VueJs4", "bookcover": "dist/logo.png", "price": 10}
     ...
 ]
 ```
@@ -347,8 +347,55 @@ devServer: {
 </script>
 ```
 
+## List
 
+在 server.js 中
+```
+let fs = require('fs');
 
+// 封装异步读取数据
+let readBooks = callback => {
+    fs.readFile('./books.json', 'utf-8', (err, data) => {
+        if (err || data.json.length === 0) data = '[]';
+        callback(JSON.parse(data));
+    })
+};
+
+// 监听get 请求并处理
+app.get('/books', (req, res) => {
+    readBooks((books) => { // books 是读取到的数据 异步
+        res.send(books);
+    })
+});
+```
+
+在list.vue 发出请求得到后台返回的数据并渲染页面
+```
+<script>
+    export default {
+        data() {
+            return {books: null};
+        },
+        beforeMount(){
+            this.$http.get('/books').then(res => {
+                // 从后台得到数据放在body属性中
+                this.books = res.body;
+            }, err => {
+                console.log(err)
+            });
+        }
+    }
+</script>
+
+# 循环得到的数据，有多少条数据渲染多少次
+<div class="col-md-3" v-for="book in books">
+
+# 动态绑定每条数据的参数
+<span>{{book.bookname}}</span>
+<img :src="book.bookcover" alt="">
+<span>{{book.price}}</span>
+<router-link :to="{name:'detail',params:{id:book.id}}">详情</router-link>
+```
 
 
 

@@ -1,17 +1,17 @@
 <template>
     <div id="list">
         <h3>Book list page</h3>
-        <div class="col-md-3">
+        <div class="col-md-3" v-for="book in books">
             <div class="panel panel-warning">
                 <div class="panel-heading">
-                    Title：<span>VueJs</span>
+                    Title：<span>{{book.bookname}}</span>
                 </div>
                 <div class="panel-body">
-                    <img src="../assets/logo.png" alt="">
+                    <img :src="book.bookcover" alt="">
                 </div>
                 <div class="panel-footer">
-                    Price：<span>9.9 $</span>
-                    <a href="javascript:;">Detail</a>
+                    Price：<span>{{book.price}} $</span>
+                    <router-link :to="{name:'detail',params:{id:book.id}}">Detail</router-link>
                 </div>
             </div>
         </div>
@@ -20,10 +20,13 @@
 <script>
     export default{
         name: 'list',
+        data(){
+            return {books: null};
+        },
         beforeMount(){
             this.$http.get('/books').then(res => {
                 // 从后台得到数据放在body属性中
-                console.log(res.body)
+                this.books = res.body;
             }, err => {
                 console.log(err)
             });
