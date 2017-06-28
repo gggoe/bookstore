@@ -73,3 +73,29 @@ module: {
     ]
 }
 ```
+
+## Components
+
+在src下建立一个components文件夹 放置组件
+
+在components 下创建
+
+> navbar.vue 图书导航组件
+
+> list.vue   图书列表组件
+
+> detail.vue 图书详情组件
+
+> add.vue    添加图书组件
+
+在components 下创建index.js
+
+```
+// 导入全部组件 并批量导出
+import Navbar from './navbar.vue'
+import List from './list.vue'
+import Detail from './detail.vue'
+import Add from './add.vue'
+export {Navbar,List,Detail,,Add}
+```
+
