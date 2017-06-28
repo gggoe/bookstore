@@ -25,17 +25,22 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpg|gif|svg|woff|ttf|woff2|eot)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]?[hash]'
         }
-      }
+      },
+        {
+          test:/\.css$/,
+            loader:'style-loader!css-loader'
+        }
     ]
   },
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
+      'vue$': 'vue/dist/vue.esm.js',
+        'bootstrap$':'bootstrap/dist/css/bootstrap.css'
     }
   },
   devServer: {

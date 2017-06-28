@@ -21,3 +21,55 @@ npm run dev
 # 注意打包编译前原文件请求的静态资源路径需要修改
 npm run build
 ```
+
+## Development
+
+```
+npm install bootstrap -S
+```
+
+在main.js 中 导入bootstrap
+```
+import 'bootstrap'
+```
+
+在  __webpack.config.js__ 中纠正默认导入的bootstrap文件
+```
+resolve:{
+    alias:{
+        'bootstrap$':'bootstrap/dist/css/bootstrap.css'
+    }
+}
+```
+
+处理文件加载 (默认导出的是js)
+> css style loader 加载规则
+```
+npm i style-loader css-loader -D
+```
+
+改变loader规则
+```
+module: {
+    rules: [
+        {
+            test:/\.css$/,
+            loader:'style-loader!css-loader'
+        }
+    ]
+}
+```
+
+配置字体图标
+```
+module: {
+    rules: [
+        {
+            test: /\.(png|jpg|gif|svg|woff|ttf|eot|woff2)$/,
+            loader: 'file-loader',
+            options: {
+            name: '[name].[ext]?[hash]'
+        }
+    ]
+}
+```
