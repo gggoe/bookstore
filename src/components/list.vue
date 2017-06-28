@@ -19,7 +19,15 @@
 </template>
 <script>
     export default{
-        name: 'list'
+        name: 'list',
+        beforeMount(){
+            this.$http.get('/books').then(res => {
+                // 从后台得到数据放在body属性中
+                console.log(res.body)
+            }, err => {
+                console.log(err)
+            });
+        }
     }
 </script>
 <style>

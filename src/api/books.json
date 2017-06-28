@@ -1,0 +1,11 @@
+[
+  {"id": 1, "bookname": "VueJs1", "bookcover": "./logo.png", "price": 10},
+  {"id": 2, "bookname": "VueJs2", "bookcover": "./logo.png", "price": 10},
+  {"id": 3, "bookname": "VueJs3", "bookcover": "./logo.png", "price": 10},
+  {"id": 4, "bookname": "VueJs4", "bookcover": "./logo.png", "price": 10},
+  {"id": 5, "bookname": "VueJs5", "bookcover": "./logo.png", "price": 10},
+  {"id": 6, "bookname": "VueJs6", "bookcover": "./logo.png", "price": 10},
+  {"id": 7, "bookname": "VueJs7", "bookcover": "./logo.png", "price": 10},
+  {"id": 8, "bookname": "VueJs8", "bookcover": "./logo.png", "price": 10},
+  {"id": 9, "bookname": "VueJs9", "bookcover": "./logo.png", "price": 10}
+]

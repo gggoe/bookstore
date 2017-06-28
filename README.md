@@ -262,4 +262,103 @@ new Vue({
 </style>
 ```
 
+## Server
+
+1. 通过vue-resource 进行前后端交互
+
+2. webpack => devServer.proxy(解决跨域问题)
+
+3. 搭建node server (express)
+
+4. 接口restful风格
+
+> get 获取一个或多个资源
+
+> post 向后台添加资源
+
+> put 更新修改资源
+
+> delete 删除资源
+
+下载vue-resource 模块
+```
+npm i vue-resource -S
+```
+
+在main.js 中
+```
+import VueResource from 'vue-resource'
+
+Vue.use(VueResource);
+```
+
+在src下建立一个api文件夹 放置接口和数据
+
+创建books.json 数据文件
+```
+[
+    {"id": 1, "bookname": "VueJs1", "bookcover": "./logo.png", "price": 10},
+    {"id": 2, "bookname": "VueJs2", "bookcover": "./logo.png", "price": 10},
+    {"id": 3, "bookname": "VueJs3", "bookcover": "./logo.png", "price": 10},
+    {"id": 4, "bookname": "VueJs4", "bookcover": "./logo.png", "price": 10}
+    ...
+]
+```
+
+创建server.js 服务文件(基于express框架)
+```
+let express = require('express');
+let app = express();
+
+// 监听get请求并处理
+app.get('/books', (req, res) => {
+    res.send('hello List!');
+});
+
+app.listen(6061, () => {
+    console.log('监听6061端口');
+});
+```
+
+在webpack.config.js 中配置代理
+```
+devServer: {
+    historyApiFallback: true,
+    noInfo: true,
+    proxy:{ // 设置代理 解决跨域问题
+    '/books':'http://127.0.0.1:6061'
+    }
+}
+```
+
+在list.vue 中测试接口
+```
+<script>
+    export default {
+        beforeMount(){
+            this.$http.get('/books').then(res => {
+                // 从后台得到数据放在body属性中
+                console.log(res.body)
+            }, err => {
+                console.log(err)
+            });
+        }
+    }
+</script>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
