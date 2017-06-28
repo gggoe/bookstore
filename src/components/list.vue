@@ -8,6 +8,7 @@
                 </div>
                 <div class="panel-body">
                     <img :src="book.bookcover" alt="">
+                    <!--<img src="" alt="">-->
                 </div>
                 <div class="panel-footer">
                     Price：<span>{{book.price}} $</span>

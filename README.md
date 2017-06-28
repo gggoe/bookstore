@@ -397,15 +397,146 @@ app.get('/books', (req, res) => {
 <router-link :to="{name:'detail',params:{id:book.id}}">详情</router-link>
 ```
 
+## Detail
+
+在detail.vue中
+```
+<script>
+    export default {
+        data(){
+            return {id: null, book: (id: "", bookname: "", bookcover: "", price: ""};
+        },
+        beforeMount(){
+            // 获取当前页面的路由参数 id
+            this.id=this.$route.params.id;
+            // 把当前页对应的id 传到后台 渲染从后台返回的数据
+            this.$http.get('/books?id='+this.id).then(res => {
+                this.book = res.body;
+            }, err => {
+                console.log(err);
+            })
+        }
+</script>
+
+# 把从后台得到数据渲染到页面
+<span>{{book.bookname}}</span>
+<img :src="book.bookcover" alt="">
+<span>{{book.price}}</span>
+```
 
 
+在server.js 中
+```
+// 监听get请求并处理
+app.get('/books', (req, res) => {
+    console.log(req.query.id); // 得到前端传递过来的id
+    let id = Number(req.query.id);
+    if (id) { // 如果前台传过来id 返回指定id 的图书数据 详情页
+        readBooks(books => {
+            // 返回id 相同的那一项
+            let book = books.find(item => item.id === id);
+            // 把得到id 相同那一项传给前台
+            res.send(book);
+        });
+    } else { // 如果前台没有传过来id 返回所有的数据 列表页
+        readBooks(books=> {
+            res.send(books);
+        })
+    }
+});
+```
 
+在detail.vue中
+```
+<script>
+    export default {
+            name: 'detail',
+            data(){
+                // flag 默认不显示 当点击修改按钮 原本显示元素隐藏 隐藏的元素显示
+                return {id: null, book: {bookname: '', bookcover: '', price: ''}, flag: false};
+            },
+            methods:{
+                // 把当前页的id 传到后台 后台删除后返回列表页
+                remove(){
+                    this.$http.delete('/books?id='+this.book.id).then(res=>{
+                        this.$router.push('/list');
+                    },err=>{
+                        console.log(err);
+                    })
+                },
+                // 把修改后的book 传到后台 后台更新后返回列表页
+                update(){
+                    this.$http.put('/books',this.book).then(res=>{
+                        this.$router.push('/list');
+                    },err=>{
+                        console.log(err);
+                    })
+                }
+            }
+        }
+</script>
 
+# 给按钮绑定事件
+<button type="button" class="btn btn-danger" v-show="!flag" @click="remove">Delete</button>
+<button type="button" class="btn btn-warning" v-show="!flag" @click="flag=true">Modify</button>
+<button type="button" class="btn btn-primary" v-show="flag" @click="update">Confirm change</button>
 
+// 添加可编辑的文本框 默认隐藏
+<input type="text" v-show="flag" v-model="book.bookname">
+<input type="text" v-show="flag" v-model="book.price">
+```
 
+body-parser 解析请求体的中间键
+```
+npm install body-parser -D
+```
 
+在server.js 中
+```
+let bodyParser = require('body-parser');
 
+// 封装异步写入方法
+let writeBooks = (data, callback) => {
+    fs.writeFile('./books.json', JSON.stringify(data), callback);
+};
 
+app.use(bodyParser.json()); // 解析请求体json内容
 
+// 监听put请求并处理
+app.put('/books', (req, res) => {
+    console.log("需要修改的内容: "+req.body); // req.body 获取的请求体里的内容 json对象
+    readBooks(books => {
+        let id = Number(req.body.id); // 获取需要更新的对象id
+        books = books.map(item => {
+            // 如果id 相同 则替换这条数据
+            if (item.id === id) {
+                return req.body;
+            }
+            // 不相同则返回原数据
+            return item;
+        });
+        // 把新的数组写入json 文件
+        writeBooks(books, err => {
+            res.send(books);
+        });
+    });
+});
+
+// 监听delete请求并处理
+app.delete('/books', (req, res) => {
+    // 得到前台传过来的 需要删除的id
+    let id = Number(req.query.id);
+    readBooks(books => {
+        books = books.filter(item => {
+            // 过滤id 不符合项
+            return item.id != id;
+        });
+        // 把过滤后的新数组写入json 文件
+        writeBooks(books, err => {
+            res.send(books);
+        });
+    });
+});
+```
 
 
