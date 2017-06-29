@@ -598,6 +598,52 @@ app.post('/books', (req, res) => {
 });
 ```
 
+## build
 
+在生产环境运行代码
+
+```
+# 打包代码
+npm run build
+```
+
+拷贝一份 server.js 和 books.json 到根目录
+
+在根目录server.js 中添加
+```
+// 返回静态文件中间件
+app.use(express.static('public'));
+
+// 如果访问 /  就展示主页
+app.get('/', (req, res) => {
+    res.setHeader('Content-Type', 'text/html', ';charset=utf-8');
+    let resHtml = fs.readFile('./index.html', 'utf-8', (err, resHtml) => {
+        res.send(resHtml);
+    });
+});
+```
+
+在根目录创建public文件夹
+
+把生产后的代码dist文件夹 放入public
+
+把静态资源assets文件夹 拷贝一份到public
+
+```
+# 修改根目录books.js 里的的图片路径
+[{"bookname":"VueJs1","bookcover":"assets/logo.png","price":"10","id":1}]
+```
+
+启动根目录的server 打开localhost:127.0.0.1:6061/
+
+注意index.html 里的引入路径是不需要修改的
+```
+<script src="/dist/build.js"></script>
+```
+
+生产后项目中除了以下几个文件其余不再依赖
+```
+books.json  index.html  node_modules  public  server.js
+```
 
 
