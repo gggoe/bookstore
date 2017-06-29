@@ -1,6 +1,9 @@
 # bookstore
 
 [![Author](https://img.shields.io/badge/author-gggoe-green.svg?style=flat-square)](https://github.com/gggoe)
+[![QQ](https://img.shields.io/badge/QQ-2449602607-blue.svg?style=flat-square)](http://wpa.qq.com/msgrd?v=3&uin=2449602607&site=qq&menu=yes)
+[![Email](https://img.shields.io/badge/Email-gggoe@qq.com-yellow.svg?style=flat-square)](mailto:gggoe@qq.com)
+
 
 > A simple Vue.js project
 
