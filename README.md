@@ -646,4 +646,9 @@ app.get('/', (req, res) => {
 books.json  index.html  node_modules  public  server.js
 ```
 
+## Thanks for reading
+
+如有问题或补充欢迎联系我
+
+项目预览地址: https://bookstore.gggoe.cn
 
